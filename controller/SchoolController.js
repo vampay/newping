@@ -86,7 +86,7 @@ exports.updateSchool = async (req, res) => {
         const updatedSchool = await school.save();//บรรทัดนี้จะบันทึกผลิตภัณฑ์ที่แก้ไขแล้วกลับไปยังฐานข้อมูล
         res.status(200).json(updatedSchool);// หากการบันทึกเสร็จสมบูรณ์ ฟังก์ชันจะตอบกลับด้วยรหัสสถานะ 200
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        res.status(500).json({ message: error.message });           
         //หากเกิดข้อผิดพลาดใดๆ ระหว่างการดำเนินการtryบล็อกบล็อกจะcatchตรวจจับข้อผิดพลาดและตอบสนองด้วยรหัสสถานะ 500 และข้อความแสดงข้อผิดพลาด
     }
 };

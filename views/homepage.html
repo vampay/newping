@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="/css/navber.css">
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #ff9102;
+            color: white;
+        }
+        .find-product {
+            text-align: right;
+            margin-top: 10px;
+        }
+        .navbar-buttons {
+            margin-left: auto;
+        }
+        .navbar-buttons button {
+            margin-left: 10px;
+        }
+        .navbar-logo {
+            display: flex;
+            align-items: center;
+        }
+        .navbar-logo img {
+            height: 50px;
+            margin-right: 40px;
+        }
+        .btn {
+        background-color: #4CAF50;
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+        border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <div class="w3-bar navbar-logo">
+        <div class="w3-bar-item">
+            <a href="/Homepage">
+                <img src="/img/tsu.png" alt="Logo">
+            </a>
+        </div>
+        <div class="w3-bar-item navbar-buttons">
+            <a href="/APIPage" class="w3-button w3-white w3-border w3-round-large">ประวัติของผู้ใช้งาน</a>
+            <a href="/Homepage" class="w3-button w3-red w3-round-large">กิจกรรมแนะนำที่ลงได้</a>
+            <a href="/" class="w3-button w3-white w3-border w3-round-large">ออกจากระบบ</a>
+        </div>
+    </div>
+    
+    <!-- Find product bar -->
+    <div class="w3-row">
+        <div class="w3-col s9">
+            <h3>กิจกรรม ผู้ใช้</h3>
+        </div>
+        <div class="w3-col s3 find-product">
+            <input class="w3-input w3-border" type="text" placeholder="Find a product">
+        </div>
+    </div>
+
+    <!-- Table Section -->
+    <table class="w3-margin-top">
+        <thead>
+            <tr>
+                <th>โรงเรียน</th>
+                <th>วันที่เข้าแนะนำ</th>
+                <th>ช่วงเวลา</th>
+                <th>จำนวนผู้เข้าร่วม</th>
+                <th>ชื่อครูผู้ติดต่อ</th>
+                <th>เบอร์ครูผู้ติดต่อ</th>
+                <th>ที่ตั้งโรงเรียน</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="school-table"></tbody>
+    </table>
+
+    <!-- Script สำหรับดึงข้อมูลจาก API -->
+    <script>
+        fetch('/api/school')
+            .then(response => response.json())
+            .then(data => {
+                const tableBody = document.getElementById('school-table');
+                data.forEach(school => {
+                    const row = `
+                        <tr>
+                            <td>${school.school_name}</td>
+                            <td>${new Date(school.date).toLocaleDateString('th-TH')}</td>
+                            <td>${school.startTime} - ${school.endTime}</td>
+                            <td>${school.student_count}</td>
+                            <td>${school.teacher_name}</td>
+                            <td>${school.phone_teacher}</td>
+                            <td>${school.location}</td>
+                            <td><a href="/InForm?schoolName=${school.school_name}
+                                &date=${school.date}
+                                &startTime=${school.startTime}&endTime=${school.endTime}
+                                &location=${school.location}
+                                &student_count=${school.student_count}
+                                &teacher_name=${school.teacher_name}
+                                &phone_teacher=${school.phone_teacher}" class="btn">ลงชื่อ</a></td>
+                        </tr>
+                    `;
+                    tableBody.innerHTML += row; // เพิ่มแถวเข้าไปในตาราง
+                });
+            })
+            .catch(error => console.error('Error fetching school data:', error));
+    </script>
+
+</body>
+</html>

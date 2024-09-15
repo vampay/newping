@@ -37,6 +37,31 @@ app.use(express.static(path.join(__dirname, '/public')));
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'view_admin','login.html'));
 });
+
+app.get('/homepage', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'homepage.html'));
+});
+
+app.get('/InForm', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'information.html'));
+});
+
+app.get('/LoginPage', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'login.html'));
+});
+
+app.get('/SignPage', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'register.html'));
+});
+
+app.get('/APIPage', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'View_information.html'));
+});
+
+
+
+
+
 app.get('/homepage_admin', (req, res) => {
     res.sendFile(path.join(__dirname, 'view_admin', 'homepage_admin.html'));
 });
