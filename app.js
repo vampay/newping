@@ -50,29 +50,26 @@ app.get('/edit-info', (req, res) => {
 });
 
 //edit
-app.put('/api/school/:id', async (req, res) => {
-    try {
-        // Existing code
-    } catch (error) {
-        console.error('Detailed Error:', error);
-        res.status(500).json({ success: false, message: 'Internal server error', details: error.message });
-    }
-});
+// app.put('/api/school/:id', async (req, res) => {
+//     try {
+//         // Existing code
+//     } catch (error) {
+//         console.error('Detailed Error:', error);
+//         res.status(500).json({ success: false, message: 'Internal server error', details: error.message });
+//     }
+// });
 
 app.put('/api/school/:id', async (req, res) => {
     try {
         const { id } = req.params;
         const updateData = req.body;
 
-        // Validate incoming data
-        const requiredFields = ['school_name', 'date', 'startTime', 'endTime', 'location', 'student_count', 'teacher_name', 'phone_teacher', 'faculty'];
-        for (const field of requiredFields) {
-            if (!updateData[field]) {
-                return res.status(400).json({ success: false, message: `Missing required field: ${field}` });
-            }
+        // Validate the ID and data (you can add more validation as needed)
+        if (!id || !updateData) {
+            return res.status(400).json({ success: false, message: 'Invalid data or ID' });
         }
 
-        // Update the record in the database
+        // Update the school data
         const updatedSchool = await School.findByIdAndUpdate(id, updateData, { new: true });
 
         if (!updatedSchool) {
@@ -82,9 +79,11 @@ app.put('/api/school/:id', async (req, res) => {
         res.json({ success: true, data: updatedSchool });
     } catch (error) {
         console.error('Error updating school:', error);
-        res.status(500).json({ success: false, message: 'Internal server error', details: error.message });
+        res.status(500).json({ success: false, message: 'Error updating school data', details: error.message });
     }
 });
+
+
 
 
 

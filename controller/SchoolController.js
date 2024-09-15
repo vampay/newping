@@ -78,13 +78,19 @@ exports.updateSchool = async (req, res) => {
     try {//tryบล็อกนี้ใช้เพื่อตรวจจับข้อผิดพลาดใดๆ ที่
         const { id } = req.params;//บรรทัดนี้จะแยกรหัสผลิตภัณฑ์จากพารามิเตอร์คำขอ ( req.params) ใน Express.js 
         const school = await School.findById(id);//awaitคำสำคัญนี้ใช้เพื่อรอให้การดำเนินการแบบอะซิงโครนัสนี้เสร็จสิ้นก่อนดำเนินการต่อ
-        if (!school) return res.status(404).json({ message: 'School not found' });
+        if (!school) {
+            return res.status(404).json({ message: 'School not found' });
+        }
         //หากไม่พบผลิตภัณฑ์ที่มี ID ที่กำหนด ฟังก์ชันจะตอบสนองด้วยรหัสสถานะ 404 และวัตถุ JSON ที่มีข้อความ "ไม่พบผลิตภัณฑ์"
         
         const update = req.body;//บรรทัดนี้จะดึงข้อมูลอัปเดตจากเนื้อหาคำขอ ( req.body)
         Object.assign(school, update);//อ็อบเจ็กต์ผลิตภัณฑ์จะได้รับการอัปเดตด้วยค่าใหม่ที่ระบุไว้req.bodyใน
         const updatedSchool = await school.save();//บรรทัดนี้จะบันทึกผลิตภัณฑ์ที่แก้ไขแล้วกลับไปยังฐานข้อมูล
-        res.status(200).json(updatedSchool);// หากการบันทึกเสร็จสมบูรณ์ ฟังก์ชันจะตอบกลับด้วยรหัสสถานะ 200
+        res.status(200).json({
+            success: true,
+            message: 'School data updated successfully',
+            data: updatedSchool
+        });// หากการบันทึกเสร็จสมบูรณ์ ฟังก์ชันจะตอบกลับด้วยรหัสสถานะ 200
     } catch (error) {
         res.status(500).json({ message: error.message });
         //หากเกิดข้อผิดพลาดใดๆ ระหว่างการดำเนินการtryบล็อกบล็อกจะcatchตรวจจับข้อผิดพลาดและตอบสนองด้วยรหัสสถานะ 500 และข้อความแสดงข้อผิดพลาด
@@ -101,7 +107,7 @@ exports.deleteSchool = async (req, res) => {
         //หากไม่พบผลิตภัณฑ์ฟังก์ชันจะตอบสนองด้วยรหัสสถานะ 404 และวัตถุ JSON ที่มีข้อความ "ไม่พบผลิตภัณฑ์"ฟังก์ชันจะตอบสนองด้วยรหัสสถานะ 404 และวัตถุ JSON ที่มีข้อความ "ไม่พบผลิตภัณฑ์"
         
         await School.findByIdAndDelete(id);//บรรทัดนี้ใช้เมธอดของ Mongoose findByIdAndDeleteเพื่อลบผลิตภัณฑ์ที่มี ID ที่ระบุจากฐานข้อมูล
-        res.status(200).json({ message: 'Product deleted' });//หากการลบสำเร็จ ฟังก์ชันจะตอบกลับด้วยรหัสสถานะ 200
+        res.status(200).json({ success: true, message: 'Product deleted' });//หากการลบสำเร็จ ฟังก์ชันจะตอบกลับด้วยรหัสสถานะ 200
     } catch (error) {
         res.status(500).json({ message: error.message });
         // หากเกิดข้อผิดพลาดใดๆ ระหว่างการดำเนินการtryบล็อก (เช่น ข้อผิดพลาดของฐานข้อมูล) catchบล็อกจะจับข้อผิดพลาดและตอบสนองด้วยรหัสสถานะ 500 และข้อความแสดงข้อผิดพลาด

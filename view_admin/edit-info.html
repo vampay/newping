@@ -81,8 +81,7 @@
                 document.addEventListener('DOMContentLoaded', () => {
                     // Get the ID from the URL
                     const urlParams = new URLSearchParams(window.location.search);
-                    const id = urlParams.get(
-                        'id'); // Assume `id` is the parameter name for identifying the item
+                    const id = urlParams.get('id'); // Assume id is the parameter name for identifying the item
 
                     if (!id) {
                         document.getElementById('responseMessage').innerText = 'ID ไม่ได้ถูกส่งมา';
@@ -115,46 +114,47 @@
                                 'เกิดข้อผิดพลาดในการดึงข้อมูล';
                         });
 
-                        document.getElementById('editForm').addEventListener('submit', function (event) {
-    event.preventDefault();
+                    document.getElementById('editForm').addEventListener('submit', function (event) {
+                        event.preventDefault();
 
-    const formData = {
-        school_name: document.getElementById('school_name').value,
-        date: document.getElementById('date').value,
-        startTime: document.getElementById('startTime').value,
-        endTime: document.getElementById('endTime').value,
-        location: document.getElementById('location').value,
-        student_count: document.getElementById('student_count').value,
-        teacher_name: document.getElementById('teacher_name').value,
-        phone_teacher: document.getElementById('phone_teacher').value,
-        faculty: document.getElementById('faculty').value
-    };
+                        const formData = {
+                            school_name: document.getElementById('school_name').value,
+                            date: document.getElementById('date').value,
+                            startTime: document.getElementById('startTime').value,
+                            endTime: document.getElementById('endTime').value,
+                            location: document.getElementById('location').value,
+                            student_count: document.getElementById('student_count').value,
+                            teacher_name: document.getElementById('teacher_name').value,
+                            phone_teacher: document.getElementById('phone_teacher').value,
+                            faculty: document.getElementById('faculty').value
+                        };
 
-    fetch(`/api/school/${id}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formData),
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                document.getElementById('responseMessage').innerText =
-                    'ข้อมูลถูกอัปเดตเรียบร้อยแล้ว';
-            } else {
-                const errorMessage = data.message || 'ไม่ทราบรายละเอียด';
-                document.getElementById('responseMessage').innerText =
-                    `ไม่สามารถอัปเดตข้อมูลได้: ${errorMessage}`;
-            }
-        })
-        .catch(error => {
-    document.getElementById('responseMessage').innerText = 'เกิดข้อผิดพลาดในการอัปเดตข้อมูล';
-    console.error('Error:', error);
-});
+                        fetch(`/api/school/${id}`, {
+                                method: 'PUT',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify(formData),
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                console.log('Response from server:', data);
+                                if (data.success) {
+                                    document.getElementById('responseMessage').innerText =
+                                        'ข้อมูลถูกอัปเดตเรียบร้อยแล้ว';
+                                } else {
+                                    const errorMessage = data.message || 'ไม่ทราบรายละเอียด';
+                                    document.getElementById('responseMessage').innerText =
+                                        `ไม่สามารถอัปเดตข้อมูลได้: ${errorMessage}`;
+                                }
+                            })
+                            .catch(error => {
+                                document.getElementById('responseMessage').innerText =
+                                    'เกิดข้อผิดพลาดในการอัปเดตข้อมูล';
+                                console.error('Error:', error);
+                            });
 
-});
-
+                    });
 
                 });
             </script>
