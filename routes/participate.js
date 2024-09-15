@@ -3,11 +3,11 @@ const router = express.Router();
 const authenticateToken = require("../middlewares/auth");
 const { getParticipate, getParticipateID, postParticipate, updateParticipate, deleteParticipate,} = require("../controller/participateController");
 
- router.get("/",authenticateToken,  getParticipate);
- router.get("/:id",authenticateToken,  getParticipateID);
- router.post("/",authenticateToken,  postParticipate);
- router.put("/:id",authenticateToken, updateParticipate);
- router.delete("/:id",authenticateToken,  deleteParticipate);
+ router.get("/",  getParticipate);
+ router.get("/:id",  getParticipateID);
+ router.post("/",  postParticipate);
+ router.put("/:id", updateParticipate);
+ router.delete("/:id",  deleteParticipate);
 
 
 

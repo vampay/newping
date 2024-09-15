@@ -6,7 +6,8 @@ const userSchema = new mongoose.Schema(//สร้างรูปแบบ Mongo
     password: { type: String, required: true },
     name: { type: String, required: true },
     surname: { type: String, required: true },
-    course: { type: String, required: true }
+    course: { type: String, required: true },
+    role: { type: String, default: 'user' }
     },
     {Timestamp : true, versionKey : false
         //timestamps: true:เพิ่มฟิลด์ลงในโครงร่างโดยอัตโนมัติcreatedAtซึ่งupdatedAtจะได้รับการอัพเดตโดย Mongoose โดยอัตโนมัติ

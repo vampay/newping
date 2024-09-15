@@ -2,8 +2,7 @@ const mongoose = require('mongoose');
 
 const adminSchema = new mongoose.Schema(//สร้างรูปแบบ Mongoose ใหม่ที่ชื่อuserSchem
     {
-    username: { type: String, required: true },
-    email:{type: String, required: true },
+        email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     role: { type: String, default: 'admin' }
     },

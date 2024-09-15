@@ -9,16 +9,12 @@ const School = require("./models/School");
 
 app.use(express.json());
 // Connect to MongoDB
-mongoose
-  .connect(process.env.MONGO_DB_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  /*บรรทัดนี้พยายามเชื่อมต่อกับฐานข้อมูลMongoDB โดยใช้ Mongoose ซึ่งเป็นไลบรารี ODM  */
-  .then(() => {
-    console.log("MongoDB connected");
-  })
-  .catch((err) => console.log("MongoDB connection error:", err));
+mongoose.connect(process.env.MONGO_DB_URL)
+.then(() => {
+  console.log("MongoDB connected");
+})
+.catch((err) => console.log("MongoDB connection error:", err));
+
 // Routes
 const participateRoutes = require("./routes/participate");
 app.use("/api/participate", participateRoutes);
@@ -35,16 +31,17 @@ app.use("/api/admin", adminRoutes);
 // Serve static files
 app.use(express.static(path.join(__dirname, "/public")));
 // Serve HTML files
-app.get("/", (req, res) => res.sendFile(path.join(__dirname, "view_admin", "login.html")));
+app.get("/admin/login", (req, res) => res.sendFile(path.join(__dirname, "view_admin", "login.html")));
 app.get("/homepage_admin", (req, res) => res.sendFile(path.join(__dirname, "view_admin", "homepage_admin.html")));
 app.get("/InFormAdmin", (req, res) => res.sendFile(path.join(__dirname, "view_admin", "InFormAdmin.html")));
 app.get("/edit-info", (req, res) => res.sendFile(path.join(__dirname, "view_admin", "edit-info.html")));
 //Error handling middleware
 app.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).send("Something broke!");
-  });
+  console.error('Error:', err.stack);  // Log error stack
+  res.status(500).send({ message: 'Something went wrong!', details: err.message });
+});
 
+//แก้ไข
 app.put("/api/school/:id", async (req, res) => {
   try {
     const { id } = req.params;
@@ -94,6 +91,28 @@ app.delete("/api/school/:id", async (req, res) => {
     res.json({ success: false, message: "เกิดข้อผิดพลาดในการลบข้อมูล" }); // Error message
   }
 });
+// login admin
+app.post('/api/admin/login', async (req, res) => {
+  try {
+      const { email, password } = req.body;
+      if (!email || !password) {
+        return res.status(400).send('Email and password are required');
+    }
+      const admin = await Admin.findById(id);
+
+      if (!admin) return res.status(400).json({ message: 'Admin not found' });
+
+      const isMatch = await bcrypt.compare(password, admin.password);
+      if (!isMatch) return res.status(400).json({ message: 'Invalid credentials' });
+
+      const token = jwt.sign({ id: admin._id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
+      res.json({ token });
+  } catch (error) {
+      console.error('Error during login:', error);
+      res.status(500).json({ message: 'Internal server error', details: error.message });
+  }
+});
+
 
 const PORT = process.env.PORT || 30001;
 app.listen(PORT, () =>
