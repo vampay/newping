@@ -8,6 +8,7 @@ router.post("/", async (req,res) => {
     //เวลารันเพื่อregister login refresh  ต้อง localhost:3000/api/auth/register 
 });
 
+
 router.post("/register", register);
 router.post("/login" , login);
 router.post("/refresh" , refresh);//ขอtoken accessมั้ย
