@@ -35,23 +35,15 @@ app.use(express.static(path.join(__dirname, '/public')));
 
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'view_admin','login.html'));
+    res.sendFile(path.join(__dirname, 'views','index.html'));
 });
 
 app.get('/homepage', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'homepage.html'));
+    res.sendFile(path.join(__dirname, 'view_user', 'homepage_user.html'));
 });
 
 app.get('/InForm', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'information.html'));
-});
-
-app.get('/LoginPage', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'login.html'));
-});
-
-app.get('/SignPage', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'register.html'));
 });
 
 app.get('/APIPage', (req, res) => {
@@ -62,6 +54,15 @@ app.get('/APIPage_edit', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'edit_infouser.html'));
 });
 
+
+
+app.get('/login', (req, res) => {
+    res.sendFile(path.join(__dirname, 'view_admin', 'login.html'));
+});
+
+app.get('/register', (req, res) => {
+    res.sendFile(path.join(__dirname, 'view_admin', 'register.html'));
+});
 
 
 

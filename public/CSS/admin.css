@@ -54,3 +54,16 @@ body {
         width: 90%;
     }
 }
+.footer {
+    background-color: #ffa600; /* สีเดียวกับ navbar */
+    color: white;
+    text-align: center;
+    padding: 10px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+.full-width-image {
+    width: 100%;
+    height: auto; /* Ensure the aspect ratio is maintained */
+}
