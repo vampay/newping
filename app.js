@@ -3,20 +3,23 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const path = require("path");
 const app = express();
+require("dotenv").config();
 
 const School = require("./models/School");
 
 app.use(express.json());
-
-dotenv.config(); //บรรทัดนี้โหลดตัวแปรสภาพแวดล้อมจาก.envไฟล์ลงใน ไฟล์
+// Connect to MongoDB
 mongoose
-  .connect(process.env.MONGO_DB_URL, {})
+  .connect(process.env.MONGO_DB_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   /*บรรทัดนี้พยายามเชื่อมต่อกับฐานข้อมูลMongoDB โดยใช้ Mongoose ซึ่งเป็นไลบรารี ODM  */
   .then(() => {
     console.log("MongoDB connected");
   })
-  .catch((err) => console.log(err));
-
+  .catch((err) => console.log("MongoDB connection error:", err));
+// Routes
 const participateRoutes = require("./routes/participate");
 app.use("/api/participate", participateRoutes);
 
@@ -29,23 +32,18 @@ app.use("/api/auth", authRoutes);
 const adminRoutes = require("./routes/admin");
 app.use("/api/admin", adminRoutes);
 
-//เชื่อม
+// Serve static files
 app.use(express.static(path.join(__dirname, "/public")));
-
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "view_admin", "login.html"));
-});
-app.get("/homepage_admin", (req, res) => {
-  res.sendFile(path.join(__dirname, "view_admin", "homepage_admin.html"));
-});
-
-app.get("/InFormAdmin", (req, res) => {
-  res.sendFile(path.join(__dirname, "view_admin", "InFormAdmin.html"));
-});
-
-app.get("/edit-info", (req, res) => {
-  res.sendFile(path.join(__dirname, "view_admin", "edit-info.html"));
-});
+// Serve HTML files
+app.get("/", (req, res) => res.sendFile(path.join(__dirname, "view_admin", "login.html")));
+app.get("/homepage_admin", (req, res) => res.sendFile(path.join(__dirname, "view_admin", "homepage_admin.html")));
+app.get("/InFormAdmin", (req, res) => res.sendFile(path.join(__dirname, "view_admin", "InFormAdmin.html")));
+app.get("/edit-info", (req, res) => res.sendFile(path.join(__dirname, "view_admin", "edit-info.html")));
+//Error handling middleware
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send("Something broke!");
+  });
 
 app.put("/api/school/:id", async (req, res) => {
   try {
@@ -73,13 +71,11 @@ app.put("/api/school/:id", async (req, res) => {
     res.json({ success: true, data: updatedSchool });
   } catch (error) {
     console.error("Error updating school:", error);
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: "Error updating school data",
-        details: error.message,
-      });
+    res.status(500).json({
+      success: false,
+      message: "Error updating school data",
+      details: error.message,
+    });
   }
 });
 

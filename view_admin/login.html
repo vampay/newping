@@ -59,55 +59,38 @@
     </div>
     <script>
         document.getElementById('login-form').addEventListener('submit', async function (event) {
-            event.preventDefault(); // Prevent the default form submission
-
-            // Show loading message
-            const responseMessage = document.getElementById('response-message');
-            responseMessage.textContent = 'Processing...';
-            responseMessage.className = 'loading';
-
-            // Get form data
+            event.preventDefault();
+    
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
-
+    
             try {
-                // Send a POST request to your API
                 const response = await fetch('/api/admin/login', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({
-                        email: email,
-                        password: password,
-                        userType: 'user' // You can dynamically set this if needed
-                    })
+                    body: JSON.stringify({ email, password })
                 });
-
-                const data = await response.json();
-
+    
+                const contentType = response.headers.get('Content-Type');
+                const data = contentType && contentType.includes('application/json') ? await response.json() : await response.text();
+    
                 if (response.ok) {
-                    // Assuming the API returns a field 'redirectTo' with the URL
-                    if (data.userType === 'admin') {
+                    if (data.user.role === 'admin') {
                         window.location.href = '/homepage_admin';
                     } else {
                         window.location.href = '/homepage_user';
                     }
                 } else {
-                    // Show error message
-                    responseMessage.textContent = data.message || 'Login failed. Please try again.';
-                    responseMessage.className = 'error-message';
+                    document.getElementById('response-message').textContent = data.message || 'An error occurred. Please try again.';
                 }
             } catch (error) {
-                console.error('Error during login:', error);
-                responseMessage.textContent = 'An unexpected error occurred. Please try again.';
-                responseMessage.className = 'error-message';
+                console.error('Error:', error);
+                document.getElementById('response-message').textContent = 'An error occurred. Please try again.';
             }
         });
     </script>
-
- 
-
 </body>
 
 </html>
