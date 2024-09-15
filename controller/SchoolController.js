@@ -92,7 +92,7 @@ exports.updateSchool = async (req, res) => {
             data: updatedSchool
         });// หากการบันทึกเสร็จสมบูรณ์ ฟังก์ชันจะตอบกลับด้วยรหัสสถานะ 200
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        res.status(500).json({ message: error.message });           
         //หากเกิดข้อผิดพลาดใดๆ ระหว่างการดำเนินการtryบล็อกบล็อกจะcatchตรวจจับข้อผิดพลาดและตอบสนองด้วยรหัสสถานะ 500 และข้อความแสดงข้อผิดพลาด
     }
 };
