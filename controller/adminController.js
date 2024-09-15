@@ -1,8 +1,7 @@
 const express = require("express");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const Admin = require("../models/Admin"); // Ensure the path is correct
-
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const Admin = require('../models/Admin'); // Ensure the path is correct
 
 require('dotenv').config();
 
@@ -22,50 +21,46 @@ exports.register = async (req, res) => {
 // Login  
 exports.login = async (req, res) => {
     const { email, password } = req.body;
-    /*การแยกโครงสร้างusernameและpasswordจากเนื้อหาคำขอ เหล่านี้เป็นข้อมูลรับรองที่ผู้ใช้ให้มาเมื่อพยายามเข้าสู่ระบบ */
     try {
-        const users = await Admin.findOne({ email });//ใช้User.findOne()ค้นหาผู้ใช้ด้วยคำที่usernameกำหนด
-        if (!users) return res.status(400).send("Admin not found");
-        const isMatch = await bcrypt.compare(password, users.password);
-        if (!isMatch) return res.status(400).send("Invalid credentials")
-            //ถ้าไม่เจอชื่อผู้ใช้และรหัสผ่าน ให้ขึ้น 400;
+        const user = await Admin.findOne({ email });
+        if (!user) return res.status(400).json({ message: "Admin not found" });
 
-        const user = await Admin .findOne({email}).select("-password");//ไม่ให้ส่งpassword กลับมา
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) return res.status(400).json({ message: "Invalid credentials" });
+
+        const { password: _, ...userWithoutPassword } = user.toObject();
 
         const accessToken = jwt.sign(
-            { userId: users._id },
-            process.env.ACCESS_TOKEN_SELECT,//process.env.ACCESS_TOKEN_SECRETคือคีย์ลับที่ใช้ในการลงนามโทเค็น
-            { expiresIn: "1h" }//expiresInจะตั้งเวลาหมดอายุของโทเค็นเป็น 5 นาที
+            { userId: user._id },
+            process.env.ACCESS_TOKEN_SECRET,
+            { expiresIn: "1h" }
         );
 
         const refreshToken = jwt.sign(
-            { userId: users._id },
-            process.env.REFRESH_TOKEN_SELECT
-            /*process.env.REFRESH_TOKEN_SECRETใช้ในการลงนามโทเค็นนี้
-            สร้างโทเค็นการรีเฟรชในลักษณะเดียวกับโทเค็นการเข้าถึง 
-            แต่ไม่มีการกำหนดเวลาหมดอายุ (หรือใช้เวลาหมดอายุที่แตกต่างกัน) */
+            { userId: user._id },
+            process.env.REFRESH_TOKEN_SECRET
         );
-        res.json({user,accessToken, refreshToken });//ตอบสนองด้วยวัตถุ JSON ที่มีทั้งโทเค็นการเข้าถึงและการรีเฟรช
-    } catch (err) {//ตรวจสอบข้อผิดพลาดต่างๆ ที่เกิดขึ้นในระหว่างกระบวนการเข้าสู่ระบบ 
-        res.status(500).send(err.message);
+
+        res.json({ user: userWithoutPassword, accessToken, refreshToken });
+    } catch (err) {
+        console.error('Login error:', err); // Log the error
+        res.status(500).json({ message: "Internal Server Error" });
     }
 };
 
 // Refresh
 exports.refresh = async (req, res) => {
-    const { token } = req.body;//ยกเลิกโครงสร้างtokenจากเนื้อหาคำขอ โทเค็นนี้คาดว่าจะเป็นโทเค็นรีเฟรช
-    if (!token) return res.sendStatus(401);//หากไม่ได้ระบุโทเค็นในเนื้อหาคำขอ ให้ตอบกลับด้วย401 Unauthorizedสถานะ ซึ่งบ่งชี้ว่าคำขอไม่มีโทเค็นที่จำเป็น
+    const { token } = req.body;
+    if (!token) return res.sendStatus(401);
+
     jwt.verify(token, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
-        if (err) return res.status(403).send("access หมดอายุ")//เช็คว่าaccess หมดอายุมั้ย
-        
+        if (err) return res.status(403).json({ message: "Refresh token is invalid or expired" });
+
         const accessToken = jwt.sign(
             { userId: user.userId },
             process.env.ACCESS_TOKEN_SECRET,
-            { expiresIn: "15m" }
-            /*หากโทเค็นการรีเฟรชถูกต้อง ให้สร้างโทเค็นการเข้าถึงใหม่
-            expiresIn: "15m"กำหนดเวลาหมดอายุของโทเค็นการเข้าถึงเป็น 15 นาที */
+            { expiresIn: "1h" }
         );
         res.json({ accessToken });
     });
-    
 };

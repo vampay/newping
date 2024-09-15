@@ -5,14 +5,15 @@ const adminSchema = new mongoose.Schema(//สร้างรูปแบบ Mong
     username: { type: String, required: true },
     email:{type: String, required: true },
     password: { type: String, required: true },
+    role: { type: String, default: 'admin' }
     },
-    {Timestamp : true, versionKey : false
+    {timestamp : true, versionKey : false
         //timestamps: true:เพิ่มฟิลด์ลงในโครงร่างโดยอัตโนมัติcreatedAtซึ่งupdatedAtจะได้รับการอัพเดตโดย Mongoose โดยอัตโนมัติ
         //versionKey: false: ปิดการใช้งาน__vฟิลด์ซึ่งใช้ตามค่าเริ่มต้นเพื่อติดตามเวอร์ชันของเอกสาร 
     }
 );
-const Admins = mongoose.model('Admins',adminSchema)
+const Admin = mongoose.model('Admin',adminSchema)
 //สร้างแบบจำลอง Mongoose ที่มีชื่อUsersตาม แบบuserSchemaจำลองนี้แสดงUsersคอลเลกชันใน MongoDB
 
-module.exports = Admins;
+module.exports = Admin;
 //ส่งออกUsersโมเดลเพื่อให้สามารถใช้งานในส่วนอื่นๆ ของแอปพลิเคชัน เช่น ในตัวควบคุมหรือบริการ
