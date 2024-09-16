@@ -79,7 +79,7 @@ app.get('/InFormAdmin', (req, res) => {
     res.sendFile(path.join(__dirname, 'view_admin', 'InFormAdmin.html'));
 });
 
-app.get('/edit-info', (req, res) => {
+app.get('/edit-infoAdmin', (req, res) => {
     res.sendFile(path.join(__dirname, 'view_admin', 'edit-info.html'));
 });
 

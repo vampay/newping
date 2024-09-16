@@ -41,7 +41,7 @@
       margin-top: 10px;
   }
   .footer {
-      background-color: #ffa600; /* สีเดียวกับ navbar */
+      background-color: #ffa600;
       color: white;
       text-align: center;
       padding: 10px;
@@ -51,21 +51,19 @@
   }
   .full-width-image {
       width: 100%;
-      height: auto; /* Ensure the aspect ratio is maintained */
+      height: auto;
   }
 </style>
+
 <body>
 
   <!-- Navbar -->
   <div class="w3-bar navbar-logo navbar-yellow">
-    <!-- Logo on the left -->
     <div class="w3-bar-item">
       <a href="/homepage">
         <img src="/img/tsu.png" alt="Logo">
       </a>
     </div>
-
-    <!-- Right buttons -->
     <div class="w3-bar-item navbar-buttons">
       <a href="/APIPage" class="w3-button w3-white w3-border w3-round-large">ประวัติของผู้ใช้งาน</a>
       <a href="/APIPage_show" class="w3-button w3-red w3-round-large">กิจกรรมที่ได้ลงไปแล้ว</a>
@@ -73,7 +71,6 @@
       <a href="/" class="w3-button w3-white w3-border w3-round-large">ออกจากระบบ</a>
     </div>
   </div>
-
 
   <!-- Main Content -->
   <div class="container mt-4">
@@ -98,13 +95,9 @@
               <div class="card h-100">
                 <div class="card-body">
                   <h5 class="card-title">${row.name} ${row.surname}</h5>
-                  <p class="card-text"><strong>วันที่:</strong> ${new Date(row.date).toLocaleDateString()}</p>
                   <p class="card-text"><strong>โรงเรียน:</strong> ${row.school_name}</p>
-                  <p class="card-text"><strong>ช่วงเวลา:</strong> ${row.startTime} - ${row.endTime}</p>
-                  <p class="card-text"><strong>จำนวนผู้เข้าร่วม:</strong> ${row.student_count}</p>
-                  <p class="card-text"><strong>ที่ตั้งโรงเรียน:</strong> ${row.location}</p>
-                  <p class="card-text"><strong>ผู้ประสานงาน:</strong> ${row.phone_teacher}</p>
-                  <p class="card-text"><strong>คณะ:</strong> ${row.faculty}</p>
+                  <p class="card-text"><strong>คณะ:</strong> ${row.course}</p>
+                  <p class="card-text"><strong>จุดขึ้นรถ:</strong> ${row.Boarding_point}</p>
                 </div>
                 <div class="card-footer">
                   <div class="d-flex justify-content-start gap-2">
@@ -145,6 +138,7 @@
     }
   </script>
 </body>
+
 <!-- Footer -->
 <div class="footer">
   <p>© 2024 All rights reserved</p>
