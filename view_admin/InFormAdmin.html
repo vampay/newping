@@ -99,6 +99,7 @@
                 <input type="text" id="teacher_name" name="teacher_name" placeholder="Teacher Name" required>
                 <input type="tel" id="phone_teacher" name="phone_teacher" placeholder="Phone Number" required>
                 <input type="text" id="faculty" name="faculty" placeholder="Faculty" required>
+                <input type="number" id="count_participants" name="count_participants" placeholder="count_participants" required>
                 <button type="submit">Submit</button>
             </form>
             <p id="responseMessage"></p>
@@ -117,8 +118,9 @@
                     const teacherName = document.getElementById('teacher_name').value;
                     const phoneTeacher = document.getElementById('phone_teacher').value;
                     const faculty = document.getElementById('faculty').value;
+                    const count_participants = parseInt(document.getElementById('count_participants').value, 10);
 
-                    if (!date || !startTime || !endTime || !schoolName || !location || isNaN(studentCount) || !teacherName || !phoneTeacher || !faculty) {
+                    if (!date || !startTime || !endTime || !schoolName || !location || isNaN(studentCount) || !teacherName || !phoneTeacher || !faculty || isNaN(count_participants)) {
                         document.getElementById('responseMessage').innerText = 'กรุณากรอกข้อมูลให้ครบถ้วน';
                         return;
                     }
@@ -133,6 +135,7 @@
                         teacher_name: teacherName,
                         phone_teacher: phoneTeacher,
                         faculty,
+                        count_participants,
                     };
 
                     fetch('/api/school/', {

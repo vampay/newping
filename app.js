@@ -37,7 +37,7 @@ app.use(express.static(path.join(__dirname, '/public')));
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'views','index.html'));
 });
-
+//user
 app.get('/homepage', (req, res) => {
     res.sendFile(path.join(__dirname, 'view_user', 'homepage_user.html'));
 });
@@ -57,7 +57,9 @@ app.get('/APIPage_edit', (req, res) => {
 app.get('/APIPage_show', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'edit_infoshow.html'));
 });
-
+app.get('/edit-info', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'edit-info.html'));
+});
 
 
 
@@ -70,7 +72,7 @@ app.get('/register', (req, res) => {
 });
 
 
-
+//admin
 app.get('/homepage_admin', (req, res) => {
     res.sendFile(path.join(__dirname, 'view_admin', 'homepage_admin.html'));
 });

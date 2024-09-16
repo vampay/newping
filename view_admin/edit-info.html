@@ -72,6 +72,10 @@
                     <input type="text" id="faculty" name="faculty" required>
                 </div>
                 <div class="form-group">
+                    <label for="count_participants">จำนวนผู้เข้าร่วม:</label>
+                    <input type="number" id="count_participants" name="count_participants" required>
+                </div>
+                <div class="form-group">
                     <button type="submit">บันทึกการเปลี่ยนแปลง</button>
                 </div>
             </form>
@@ -104,6 +108,7 @@
                                 document.getElementById('teacher_name').value = data.teacher_name;
                                 document.getElementById('phone_teacher').value = data.phone_teacher;
                                 document.getElementById('faculty').value = data.faculty;
+                                document.getElementById('count_participants').value = data.count_participants;
                             } else {
                                 document.getElementById('responseMessage').innerText = 'ไม่พบข้อมูล';
                             }
@@ -126,7 +131,8 @@
                             student_count: document.getElementById('student_count').value,
                             teacher_name: document.getElementById('teacher_name').value,
                             phone_teacher: document.getElementById('phone_teacher').value,
-                            faculty: document.getElementById('faculty').value
+                            faculty: document.getElementById('faculty').value,
+                            count_participants: document.getElementById('count_participants').value
                         };
 
                         fetch(`/api/school/${id}`, {
