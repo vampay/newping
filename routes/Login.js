@@ -56,4 +56,9 @@
 //     }
 // });
 
+<<<<<<< HEAD
 // module.exports = router;
+=======
+
+module.exports = router;
+>>>>>>> 35c375b2075ded8982df13cc1f2a6ea1e7f29689
