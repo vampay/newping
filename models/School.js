@@ -10,7 +10,8 @@ const schoolsSchema = new mongoose.Schema({
     teacher_name: { type: String, required: true },
     phone_teacher: { type: String, required: true },
     faculty: { type: String, required: true },
-    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' } // Add reference to User model
+    count_participants: {  type: Number, required: true },
+    // user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' } // Add reference to User model
 }, 
 { timestamps: true, versionKey: false });
 

@@ -41,7 +41,7 @@ exports.getSchoolID = async (req, res) => {
 exports.postSchool = async (req, res) => {
     try {
         //ข้อมูลผลิตภัณฑ์ (product_name, product_type, price, และ unit) ถูกดึงมาจาก req.body ซึ่งเป็นเนื้อหาของคำขอ HTTP POST.
-        const {date,startTime, endTime,school_name,location,student_count,teacher_name,phone_teacher,faculty} = req.body;
+        const {date,startTime, endTime,school_name,location,student_count,teacher_name,phone_teacher,faculty,count_participants} = req.body;
 
         
     // ตรวจสอบรูปแบบของเวลา
@@ -60,7 +60,7 @@ exports.postSchool = async (req, res) => {
         const formattedDate = moment(`${day}/${month}/${yearBE}`, 'DD/MM/YYYY').toDate();
 
         //สร้างอ็อบเจกต์ใหม่ของ Product โดยใช้ข้อมูลที่ได้รับจาก req.body. 
-        const school = new School({date:formattedDate,startTime,endTime,school_name,location,student_count,teacher_name,phone_teacher,faculty});
+        const school = new School({date:formattedDate,startTime,endTime,school_name,location,student_count,teacher_name,phone_teacher,faculty,count_participants});
         
         //ใช้ product.save() เพื่อบันทึกผลิตภัณฑ์ใหม่ลงในฐานข้อมูล.
         const savedSchool = await school.save();
