@@ -68,7 +68,7 @@
     <!-- Right buttons -->
     <div class="w3-bar-item navbar-buttons">
       <a href="/APIPage" class="w3-button w3-white w3-border w3-round-large">ประวัติของผู้ใช้งาน</a>
-      <a href="/APIPage_edit" class="w3-button w3-red w3-round-large">กิจกรรมที่ได้ลงไปแล้ว</a>
+      <a href="/APIPage_show" class="w3-button w3-red w3-round-large">กิจกรรมที่ได้ลงไปแล้ว</a>
       <a href="/Homepage" class="w3-button w3-white w3-border w3-round-large">กิจกรรมแนะแนวที่ลงได้</a>
       <a href="/" class="w3-button w3-white w3-border w3-round-large">ออกจากระบบ</a>
     </div>
@@ -108,7 +108,7 @@
                 </div>
                 <div class="card-footer">
                   <div class="d-flex justify-content-start gap-2">
-                    <a href="/edit-info?id=${row._id}" class="btn btn-primary">แก้ไข</a>
+                    <a href="/APIPage_edit?id=${row._id}" class="btn btn-primary">แก้ไข</a>
                     <button class="btn btn-danger" onclick="deleteRow('${row._id}')">ลบ</button>
                   </div>
                 </div>

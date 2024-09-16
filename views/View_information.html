@@ -38,19 +38,18 @@
             margin-top: 10px;
         }
         .footer {
-      background-color: #ffa600; /* สีเดียวกับ navbar */
-      color: white;
-      text-align: center;
-      padding: 10px;
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-  }
-  .full-width-image {
-      width: 100%;
-      height: auto; /* Ensure the aspect ratio is maintained */
-  }
-
+            background-color: #ffa600; /* สีเดียวกับ navbar */
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        .full-width-image {
+            width: 100%;
+            height: auto; /* Ensure the aspect ratio is maintained */
+        }
     </style>
   </head>
   <body>
@@ -63,14 +62,13 @@
               <img src="/img/tsu.png" alt="Logo">
           </a>
           <!-- <a href="/HomepageAdmin" class="w3-button w3-white w3-border w3-round-large">แอดมิน</a> -->
-      </div>
-      
+        </div>
 
         <!-- Right buttons -->
         <div class="w3-bar-item navbar-buttons">
             <a href="/APIPage" class="w3-button w3-red w3-round-large">ประวัติของผู้ใช้งาน</a>
-            <a href="/APIPage_edit" class="w3-button w3-white w3-border w3-round-large">กิจกรรมที่ได้ลงไปแล้ว</a>
-            <a href="/Homepage" class="w3-button w3-white w3-border w3-round-large">กิจกรรมแนะแนวที่ลงได้</a>
+            <a href="/APIPage_show" class="w3-button w3-white w3-border w3-round-large">กิจกรรมที่ได้ลงไปแล้ว</a>
+            <a href="/homepage" class="w3-button w3-white w3-border w3-round-large">กิจกรรมแนะแนวที่ลงได้</a>
             <a href="/" class="w3-button w3-white w3-border w3-round-large">ออกจากระบบ</a>
         </div>
     </div>
@@ -90,11 +88,9 @@
         <table class="table">
           <thead>
             <tr>
-              <th scope="col">ชื่อ</th>
-              <th scope="col">นามสกุล</th>
+              <th scope="col">ชื่อ นามสกุล</th>
               <th scope="col">วันที่เข้าร่วม</th>
-              <th scope="col">ช่วงเวลาเช้า</th>
-              <th scope="col">ช่วงเวลาเย็น</th>
+              <th scope="col">ช่วงเวลา</th>
               <th scope="col">ที่ตั้ง</th>
               <th scope="col">จำนวนนักเรียน</th>
             </tr>
@@ -104,24 +100,25 @@
         </table>
       </div>
     </div>
+    
+    <!-- JavaScript to fetch and display data -->
     <script>
       document.addEventListener('DOMContentLoaded', () => {
-          fetch('/api/school/')
+          fetch('/api/school')
               .then(response => response.json())
               .then(data => {
                   const tableBody = document.getElementById('mytableUser');
                   tableBody.innerHTML = ''; // Clear existing content
 
                   data.forEach(row => {
+                      const user = row.user || {}; // Handle case where user may not exist
                       const tr = document.createElement('tr');
                       
                       tr.innerHTML = `
-                          <td>${row.name}</td>
-                          <td>${row.surname}</td>
+                          <td>${user.name || ''} ${user.surname || ''}</td>
                           <td>${new Date(row.date).toLocaleDateString()}</td>
-                          <td>${row.startTime}</td>
-                          <td>${row.endTime}</td>
-                          <td>${row.provinc}</td>
+                          <td>${row.startTime} - ${row.endTime}</td>
+                          <td>${row.location}</td>
                           <td>${row.student_count}</td>
                       `;
                       
@@ -130,10 +127,11 @@
               })
               .catch(error => console.error('Error fetching data:', error));
       });
-  </script>
+    </script>
+
+    <!-- Footer -->
+    <div class="footer">
+      <p>© 2024 All rights reserved</p>
+    </div>
   </body>
-  <!-- Footer -->
-<div class="footer">
-  <p>© 2024 All rights reserved</p>
-</div>
 </html>

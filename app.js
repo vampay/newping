@@ -51,8 +51,13 @@ app.get('/APIPage', (req, res) => {
 });
 
 app.get('/APIPage_edit', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'edit_infouser.html'));
+    res.sendFile(path.join(__dirname, 'views', 'edit-info.html'));
 });
+
+app.get('/APIPage_show', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'edit_infoshow.html'));
+});
+
 
 
 
