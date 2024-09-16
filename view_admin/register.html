@@ -67,7 +67,8 @@
 
         .login-container input[type="email"],
         .login-container input[type="password"],
-        .login-container input[type="text"] {
+        .login-container input[type="text"],
+        .login-container select {
             width: 100%;
             padding: 10px;
             margin: 10px 0;
@@ -113,6 +114,14 @@
             margin-right: 5px;
         }
 
+        .footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #f4f4f4;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
     </style>
 </head>
 <body>
@@ -124,20 +133,19 @@
         <a href="/homepage_admin">
             <img src="/img/tsu.png" alt="Logo">
         </a>
-        <!-- <a href="/HomepageAdmin" class="w3-button w3-white w3-border w3-round-large">แอดมิน</a> -->
     </div>
-    
 
     <!-- Right buttons -->
     <div class="w3-bar-item navbar-buttons">
         <a href="/login" class="w3-button w3-red w3-round-large">เข้าสู่ระบบ</a>
         <a href="/register" class="w3-button w3-white w3-border w3-round-large">สมัครสมาชิก</a>
     </div>
-</div>
+   </div>
+
     <!-- Sign Up form -->
     <div class="login-container">
         <h2>SIGN UP</h2>
-        <form action="/submit-signup" method="post">
+        <form id="signup-form">
             <label for="email">EMAIL</label>
             <input type="email" id="email" name="email" placeholder="Enter your email" required>
 
@@ -153,6 +161,12 @@
             <label for="course">COURSE</label>
             <input type="text" id="course" name="course" placeholder="Enter your course" required>
 
+            <label for="role">ROLE</label>
+            <select id="role" name="role" required>
+                  <option value="user">User</option>
+                  <option value="admin">Admin</option>
+            </select>
+
             <div class="remember-container">
                 <input type="checkbox" id="remember" name="remember">
                 <label for="remember">REMEMBER ME</label>
@@ -163,9 +177,48 @@
         <p>NEED AN ACCOUNT? <a href="/login">LOG IN</a></p>
     </div>
 
+    <!-- Footer -->
+    <div class="footer">
+        <p>© 2024 All rights reserved</p>
+    </div>
+
+    <script>
+        document.getElementById('signup-form').addEventListener('submit', async function (e) {
+            e.preventDefault(); // Prevent form submission from reloading the page
+
+            // Get the form values
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const name = document.getElementById('name').value;
+            const surname = document.getElementById('surname').value;
+            const course = document.getElementById('course').value;
+            const role = document.getElementById('role').value;
+
+            // Fetch API to send the sign-up request
+            try {
+                const response = await fetch('/api/auth/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password, name, surname, course, role })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    if (data.redirectUrl) {
+                        window.location.href = data.redirectUrl; // Redirect on successful signup
+                    }
+                } else {
+                    // Handle invalid input or errors
+                    document.getElementById('response-message').textContent = data.message || 'Signup failed';
+                }
+            } catch (error) {
+                console.error('Signup error:', error);
+                document.getElementById('response-message').textContent = 'An error occurred. Please try again later.';
+            }
+        });
+    </script>
 </body>
-<!-- Footer -->
-<div class="footer">
-    <p>© 2024 All rights reserved</p>
-  </div>
 </html>
