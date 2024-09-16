@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+// School Schema
 const schoolsSchema = new mongoose.Schema({
     school_name: { type: String, required: true },
     date: { type: Date, required: true },
@@ -10,9 +11,7 @@ const schoolsSchema = new mongoose.Schema({
     teacher_name: { type: String, required: true },
     phone_teacher: { type: String, required: true },
     faculty: { type: String, required: true },
-    count_participants: {  type: Number, required: true },
-    // user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' } // Add reference to User model
-}, 
-{ timestamps: true, versionKey: false });
+    count_participants: { type: Number, required: true },
+}, { timestamps: true, versionKey: false });
 
 module.exports = mongoose.model('School', schoolsSchema);
