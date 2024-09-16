@@ -61,7 +61,7 @@ app.get('/APIPage', (req, res) => {
 
 
 
-
+//admin
 app.get('/homepage_admin', (req, res) => {
     res.sendFile(path.join(__dirname, 'view_admin', 'homepage_admin.html'));
 });
