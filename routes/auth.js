@@ -1,16 +1,10 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
+const authController = require('../controller/userController'); // Adjust path as needed
 
-const { register, login, refresh } = require("../controller/userController");
+router.post('/api/auth/register', authController.register);
+router.post('/api/auth/login', authController.login);
+router.post('/api/auth/refresh', authController.refresh);
 
-
-router.post("/", async (req,res) => {
-    res.sendStatus(400);
-    //เวลารันเพื่อregister login refresh  ต้อง localhost:3000/api/auth/register 
-});
-
-router.post("/register", register);
-router.post("/login" , login);
-router.post("/refresh" , refresh);//ขอtoken accessมั้ย
 
 module.exports = router;

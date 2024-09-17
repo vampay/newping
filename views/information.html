@@ -121,7 +121,7 @@
             <form id="participateForm">
                 <input type="text" id="name" name="name" placeholder="name" required>
                 <input type="text" id="surname" name="surname" placeholder="surname" required>
-                <input type="text" id="course" name="course" placeholder="course" required>
+                <input type="text" id="major" name="major" placeholder="major" required>
                 <input type="text" id="Boarding_point" name="Boarding_point" placeholder="Boarding_point" required>
                 <button type="submit">Submit</button>
             </form>
@@ -134,11 +134,11 @@
                     // Validate form data
                     const name = document.getElementById('name').value;
                     const surname = document.getElementById('surname').value;
-                    const course = document.getElementById('course').value;
+                    const major = document.getElementById('major').value;
                     const Boarding_point = document.getElementById('Boarding_point').value;
                     
 
-                    if (!name || !surname || !course || !Boarding_point ) {
+                    if (!name || !surname || !major|| !Boarding_point ) {
                         document.getElementById('responseMessage').innerText = 'กรุณากรอกข้อมูลให้ครบถ้วน';
                         return;
                     }
@@ -146,7 +146,7 @@
                     const formData = {
                         name,
                         surname,
-                        course,
+                        major,
                         Boarding_point,
                     };
 

@@ -42,8 +42,8 @@
                     <input type="text" id="surname" name="surname" placeholder="surname" required>
                 </div>
                 <div class="form-group">
-                    <label for="course">หลักสูตร:</label>
-                    <input type="text" id="course" name="course" placeholder="course" required>
+                    <label for="major">หลักสูตร:</label>
+                    <input type="text" id="major" name="major" placeholder="major" required>
                 </div>
                 <div class="form-group">
                     <label for="Boarding_point">จุดขึ้นรถ:</label>
@@ -69,7 +69,7 @@
                                 if (data) {
                                     document.getElementById('name').value = data.name;
                                     document.getElementById('surname').value = data.surname;
-                                    document.getElementById('course').value = data.course;
+                                    document.getElementById('major').value = data.major;
                                     document.getElementById('Boarding_point').value = data.Boarding_point;
                                 } else {
                                     document.getElementById('responseMessage').innerText = 'ไม่พบข้อมูล';
@@ -89,7 +89,7 @@
                         const formData = {
                             name: document.getElementById('name').value,
                             surname: document.getElementById('surname').value,
-                            course: document.getElementById('course').value,
+                            major: document.getElementById('major').value,
                             Boarding_point: document.getElementById('Boarding_point').value,
                         };
 

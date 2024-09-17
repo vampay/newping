@@ -7,7 +7,7 @@ const User = require("../models/User");// Corrected from Product to User
 require('dotenv').config();
 //register
 exports.register = async (req, res) => {
-    const {email,password,name,surname,course } = req.body;
+    const {email,password,name,surname,major } = req.body;
     //บรรทัดนี้จะดึงข้อมูลusername, password, name, และroleจากเนื้อหาคำขอ ( req.body)  ใช้ลงทะเบียน
     try {
         const hashedPassword = await bcrypt.hash(password, 10);
@@ -15,7 +15,7 @@ exports.register = async (req, res) => {
         สัญลักษณ์นี้10แสดงจำนวนรอบของรหัส Salt จะเพิ่มความซับซ้อนให้กับแฮชรหัสผ่านเพื่อเพิ่มความปลอดภัย
         awaitใช้สำหรับจัดการการดำเนินการแฮชรหัสผ่านแบบอะซิงโครนัส */
 
-        const user = new User({email, password : hashedPassword,name,surname,course });
+        const user = new User({email, password : hashedPassword,name,surname,major });
         /*สร้างอินสแตนซ์ ใหม่Userโดยใช้emill, password  และรหัสผ่านแบบแฮช ( hashedPassword) ที่ให้มา*/
 
         await user.save();//save()ใช้ในการบันทึกเอกสารผู้ใช้ใหม่ลงในฐานข้อมูล

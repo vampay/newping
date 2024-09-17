@@ -6,7 +6,7 @@ const userSchema = new mongoose.Schema(//สร้างรูปแบบ Mongo
     password: { type: String, required: true },
     name: { type: String, required: true },
     surname: { type: String, required: true },
-    course: { type: String, required: true },
+    major: { type: String, required: true },
     role: { type: String, default: 'user' }
     },
     {Timestamp : true, versionKey : false

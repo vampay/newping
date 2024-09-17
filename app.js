@@ -63,6 +63,8 @@ app.get('/edit-info', (req, res) => {
 
 
 
+
+
 app.get('/login', (req, res) => {
     res.sendFile(path.join(__dirname, 'view_admin', 'login.html'));
 });
