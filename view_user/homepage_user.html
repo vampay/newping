@@ -85,6 +85,16 @@
         </div>
     </div>
     
+<<<<<<< HEAD
+    <!-- Find product bar -->
+    <div class="w3-row">
+        <div class="w3-col s9">
+            <h3>กิจกรรม ผู้ใช้</h3>
+        </div>
+        <div class="w3-col s3 find-product">
+            <input class="w3-input w3-border" type="text" placeholder="Find a product">
+        </div>
+=======
     <!-- Main Content -->
   <div class="container">
     <div class="table-responsive">
@@ -105,65 +115,57 @@
           <!-- Data will be inserted here by JavaScript -->
         </tbody>
       </table>
+>>>>>>> 693e98e502f3e6a788e230797dae47307d786ee8
     </div>
-  </div>
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      fetch('/api/school')
-        .then(response => response.json())
-        .then(data => {
-          const tableBody = document.getElementById('mytableUser');
-          tableBody.innerHTML = ''; // Clear existing content
 
-          data.forEach(row => {
-            const tr = document.createElement('tr');
+    <!-- Table Section -->
+    <table class="w3-margin-top">
+        <thead>
+            <tr>
+                <th>โรงเรียน</th>
+                <th>วันที่เข้าแนะแนว</th>
+                <th>ช่วงเวลา</th>
+                <th>จำนวนนักเรียน</th>
+                <th>ที่ตั้งโรงเรียน</th>
+                <th>จำนวนผู้เข้าร่วม</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="school-table"></tbody>
+    </table>
 
-            tr.innerHTML = `
-                          <td>${new Date(row.date).toLocaleDateString()}</td>
-                          <td>${row.startTime} - ${row.endTime}</td>
-                          <td>${row.school_name}</td>
-                          <td>${row.student_count}</td>
-                          <td>${row.location}</td>
-                          <td>${row.faculty}</td>
-                          <td>${row.count_participants}</td>
-                          <td>
-                            <div class="d-flex justify-content-start gap-2">
-                              <a href="/edit-info" class="btn btn-primary">สมัคร</a>
-                            </div>
-                          </td>
-                      `;
-            tableBody.appendChild(tr);
-          });
-        })
-        .catch(error => console.error('Error fetching data:', error));
-    });
+    <!-- Script สำหรับดึงข้อมูลจาก API -->
+    <script>
+        fetch('/api/school')
+            .then(response => response.json())
+            .then(data => {
+                const tableBody = document.getElementById('school-table');
+                data.forEach(school => {
+                    const row = `
+                        <tr>
+                            <td>${school.school_name}</td>
+                            <td>${new Date(school.date).toLocaleDateString('th-TH')}</td>
+                            <td>${school.startTime} - ${school.endTime}</td>
+                            <td>${school.student_count}</td>
+                            <td>${school.location}</td>
+                            <td>${school.count_participants}</td>
+                            <td><a href="/APIPage_edit?schoolName=${school.school_name}
+                                &date=${school.date}
+                                &startTime=${school.startTime}&endTime=${school.endTime}
+                                &location=${school.location}
+                                &student_count=${school.student_count}
+                                &count_participants=${school.count_participants}" class="btn">สมัคร</a></td>
+                        </tr>
+                    `;
+                    tableBody.innerHTML += row; // เพิ่มแถวเข้าไปในตาราง
+                });
+            })
+            .catch(error => console.error('Error fetching school data:', error));
+    </script>
 
-    function deleteRow(id) {
-      if (confirm('คุณแน่ใจว่าต้องการลบข้อมูลนี้?')) {
-        fetch(`/api/school/${id}`, {
-            method: 'DELETE',
-          })
-          .then(response => response.json())
-          .then(data => {
-            console.log('Delete response:', data); // Log the response to debug
-
-            if (data.success) {
-              alert('ข้อมูลถูกลบเรียบร้อยแล้ว');
-              location.reload(); // Reload the page to refresh the table
-            } else {
-              alert('ไม่สามารถลบข้อมูลได้: ' + (data.message || 'ไม่ทราบรายละเอียด'));
-            }
-          })
-          .catch(error => {
-            console.error('Error deleting data:', error);
-            alert('เกิดข้อผิดพลาดในการลบข้อมูล');
-          });
-      }
-    }
-  </script>
 </body>
 <!-- Footer -->
 <div class="footer">
-  <p>© 2024 All rights reserved</p>
-</div>
+    <p>© 2024 All rights reserved</p>
+  </div>
 </html>

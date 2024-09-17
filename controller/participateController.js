@@ -31,14 +31,33 @@ exports.getParticipateID = async (req, res) => {
 // Create a new participant without school_id
 exports.postParticipate = async (req, res) => {
     try {
+<<<<<<< HEAD
         const { name, surname, course, Boarding_point } = req.body;
+=======
+<<<<<<< HEAD
+        const { name, surname, major, Boarding_point } = req.body;
+
+        // Validate required fields
+        if (!name || !surname || !major || !Boarding_point) {
+            return res.status(400).json({ message: 'All fields are required' });
+        }
+
+        const participate = new Participate({ name, surname, major, Boarding_point });
+=======
+        const { name, surname, course, Boarding_point, school_id } = req.body;
+>>>>>>> c46d737c112ae2af981f56ad2933795f66bf87fb
 
         // Validate required fields
         if (!name || !surname || !course || !Boarding_point) {
             return res.status(400).json({ message: 'All fields are required' });
         }
 
+<<<<<<< HEAD
         const participate = new Participate({ name, surname, course, Boarding_point });
+=======
+        const participate = new Participate({ name, surname, course, Boarding_point, school_id });
+>>>>>>> 693e98e502f3e6a788e230797dae47307d786ee8
+>>>>>>> c46d737c112ae2af981f56ad2933795f66bf87fb
         const savedParticipate = await participate.save();
         res.status(201).json(savedParticipate);
     } catch (error) {
@@ -56,12 +75,20 @@ exports.updateParticipate = async (req, res) => {
             return res.status(404).json({ message: 'Participate not found' });
         }
 
+<<<<<<< HEAD
         const { name, surname, course, Boarding_point } = req.body;
+=======
+<<<<<<< HEAD
+        const { name, surname, major, Boarding_point } = req.body;
+=======
+        const { name, surname, course, Boarding_point, school_id } = req.body;
+>>>>>>> 693e98e502f3e6a788e230797dae47307d786ee8
+>>>>>>> c46d737c112ae2af981f56ad2933795f66bf87fb
 
         // Update only the provided fields
         if (name) participate.name = name;
         if (surname) participate.surname = surname;
-        if (course) participate.course = course;
+        if (major) participate.major = major;
         if (Boarding_point) participate.Boarding_point = Boarding_point;
 
         const updatedParticipate = await participate.save();
