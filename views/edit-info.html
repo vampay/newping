@@ -106,12 +106,13 @@
                             .then(response => response.json())
                             .then(data => {
                                 if (data.success) {
-                                    document.getElementById('responseMessage').innerText =
-                                        'ข้อมูลถูกอัปเดตเรียบร้อยแล้ว';
-                                } else {
                                     const errorMessage = data.message || 'ไม่ทราบรายละเอียด';
                                     document.getElementById('responseMessage').innerText =
                                         `ไม่สามารถอัปเดตข้อมูลได้: ${errorMessage}`;
+                                    
+                                } else {
+                                    document.getElementById('responseMessage').innerText =
+                                        'ข้อมูลถูกอัปเดตเรียบร้อยแล้ว';
                                 }
                             })
                             .catch(error => {

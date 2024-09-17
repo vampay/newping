@@ -1,23 +1,23 @@
 const express = require("express");
 const Participate = require("../models/participate");
 
-// Get all participants with populated school data
+// Get all participants without populated school data
 exports.getParticipate = async (req, res) => {
     try {
-        // Populate school_id to get school_name from the School model
-        const participates = await Participate.find().populate('school_id', 'school_name');
+        // Fetch all participants without school data
+        const participates = await Participate.find();
         res.status(200).json(participates);
     } catch (error) {
         res.status(500).json({ message: 'Failed to fetch participants', error: error.message });
     }
 };
 
-// Get a specific participant by ID with populated school data
+// Get a specific participant by ID without populated school data
 exports.getParticipateID = async (req, res) => {
     try {
         const { id } = req.params;
-        // Populate school_id to get school_name
-        const participate = await Participate.findById(id).populate('school_id', 'school_name');
+        // Fetch participant by ID without school data
+        const participate = await Participate.findById(id);
         if (participate) {
             res.status(200).json(participate);
         } else {
@@ -28,17 +28,17 @@ exports.getParticipateID = async (req, res) => {
     }
 };
 
-// Create a new participant
+// Create a new participant without school_id
 exports.postParticipate = async (req, res) => {
     try {
-        const { name, surname, course, Boarding_point, school_id } = req.body;
+        const { name, surname, course, Boarding_point } = req.body;
 
         // Validate required fields
-        if (!name || !surname || !course || !Boarding_point || !school_id) {
-            return res.status(400).json({ message: 'All fields including school_id are required' });
+        if (!name || !surname || !course || !Boarding_point) {
+            return res.status(400).json({ message: 'All fields are required' });
         }
 
-        const participate = new Participate({ name, surname, course, Boarding_point, school_id });
+        const participate = new Participate({ name, surname, course, Boarding_point });
         const savedParticipate = await participate.save();
         res.status(201).json(savedParticipate);
     } catch (error) {
@@ -46,7 +46,7 @@ exports.postParticipate = async (req, res) => {
     }
 };
 
-// Update a participant
+// Update a participant without updating school_id
 exports.updateParticipate = async (req, res) => {
     try {
         const { id } = req.params;
@@ -56,14 +56,13 @@ exports.updateParticipate = async (req, res) => {
             return res.status(404).json({ message: 'Participate not found' });
         }
 
-        const { name, surname, course, Boarding_point, school_id } = req.body;
+        const { name, surname, course, Boarding_point } = req.body;
 
         // Update only the provided fields
         if (name) participate.name = name;
         if (surname) participate.surname = surname;
         if (course) participate.course = course;
         if (Boarding_point) participate.Boarding_point = Boarding_point;
-        if (school_id) participate.school_id = school_id;
 
         const updatedParticipate = await participate.save();
         res.status(200).json(updatedParticipate);
