@@ -88,6 +88,7 @@
             <th scope="col">เบอร์ครูผู้ติดต่อ</th>
             <th scope="col">ที่ตั้งโรงเรียน</th>
             <th scope="col">ผู้ประสานงาน</th>
+            <th scope="col">จำนวนผู้เข้าร่วม</th>
             <th scope="col">Actions</th>
           </tr>
         </thead>
@@ -120,7 +121,7 @@
                           <td>${row.count_participants}</td>
                           <td>
                             <div class="d-flex justify-content-start gap-2">
-                              <a href="/edit-info?id=${row._id}" class="btn btn-primary">แก้ไข</a>
+                              <a href="/edit-infoAdmin?id=${row._id}" class="btn btn-primary">แก้ไข</a>
                               <button class="btn btn-danger" onclick="deleteRow('${row._id}')">ลบ</button>
                             </div>
                           </td>

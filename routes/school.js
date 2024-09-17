@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const School = require('../models/School');
-const User = require('../models/User');
+const auth = require('../models/auth');
 const {
     getSchool,
     getSchoolID,

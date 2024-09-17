@@ -1,11 +1,11 @@
-// routes/protectedRoute.js
+// // routes/protectedRoute.js
 
-const express = require('express');
-const router = express.Router();
-const authenticateToken = require('../middleware/authMiddleware');
+// const express = require('express');
+// const router = express.Router();
+// const authenticateToken = require('../middleware/authMiddleware');
 
-router.get('/protected', authenticateToken, (req, res) => {
-    res.json({ message: 'This is a protected route', user: req.user });
-});
+// router.get('/protected', authenticateToken, (req, res) => {
+//     res.json({ message: 'This is a protected route', user: req.user });
+// });
 
-module.exports = router;
+// module.exports = router;
