@@ -1,26 +1,19 @@
 const express = require('express');
 const router = express.Router();
-const authController = require('../controller/userController'); // Adjust path as needed
+const { register, login, refresh } = require("../controller/authController"); // Adjust path as needed
+const authenticateToken = require('../middlewares/auth'); // Middleware for token authentication
 
-<<<<<<< HEAD
-router.post('/api/auth/register', authController.register);
-router.post('/api/auth/login', authController.login);
-router.post('/api/auth/refresh', authController.refresh);
-
-
-module.exports = router;
-=======
-const { register, login, refresh } = require("../controller/authController");
-const authenticateToken = require('../middlewares/auth');
-
-router.post("/", async (req,res) => {
-    res.sendStatus(400);
-    //เวลารันเพื่อregister login refresh  ต้อง localhost:3000/api/auth/register 
+// Route for basic response or error handling
+router.post("/", (req, res) => {
+    res.sendStatus(400); // Bad Request status for incorrect endpoints
+    // To register, login, or refresh, use endpoints like: /api/auth/register
 });
 
-router.post("/register",authenticateToken, register);
-router.post("/login" , login);
-router.post("/refresh" ,authenticateToken, refresh);//ขอtoken accessมั้ย
+// Public routes for login and register
+router.post("/register", register); // Register does not require token
+router.post("/login", login); // Login does not require token
+
+// Protected route for token refresh
+router.post("/refresh", authenticateToken, refresh); // Requires token for refreshing access
 
 module.exports = router;
->>>>>>> 693e98e502f3e6a788e230797dae47307d786ee8
